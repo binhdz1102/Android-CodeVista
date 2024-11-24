@@ -4,6 +4,9 @@ plugins {
     alias(libs.plugins.androiduwu.android.application.jacoco)
     alias(libs.plugins.androiduwu.android.hilt)
     alias(libs.plugins.androiduwu.android.navigation)
+    id("kotlin-kapt")
+    id("com.google.dagger.hilt.android")
+//    id("com.google.devtools.ksp") version "1.7.20-1.0.8"
 }
 
 android {
@@ -36,26 +39,34 @@ android {
 
 
 dependencies {
-    // Compose (trong trường hợp lỗi plugin có thể do thiếu 2 lib dưới)
     implementation(libs.androidx.lifecycle.runtimeCompose)
-//    implementation(libs.androidx.activity.compose)
-//    implementation(libs.androidx.navigation.compose)
     implementation(libs.androidx.core.ktx)
 
 
-//    implementation(libs.androidx.lifecycle.runtime.ktx)
-//    implementation(libs.androidx.core.ktx)
-//    implementation(libs.androidx.activity.compose)
-//    implementation(platform(libs.androidx.compose.bom))
-//    implementation(libs.androidx.ui)
-//    implementation(libs.androidx.ui.graphics)
-//    implementation(libs.androidx.ui.tooling.preview)
-//    implementation(libs.androidx.material3)
-//    testImplementation(libs.junit)
-//    androidTestImplementation(libs.androidx.junit)
-//    androidTestImplementation(libs.androidx.espresso.core)
-//    androidTestImplementation(platform(libs.androidx.compose.bom))
-//    androidTestImplementation(libs.androidx.ui.test.junit4)
-//    debugImplementation(libs.androidx.ui.tooling)
-//    debugImplementation(libs.androidx.ui.test.manifest)
+    // bộ dependencies UT
+
+
+
+    // bộ dependencies chạy app notes
+
+    implementation("androidx.compose.material:material-icons-extended:1.5.0")
+
+    // Coroutines
+    val coroutineVersion = "1.7.1"
+    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:$coroutineVersion")
+    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-android:$coroutineVersion")
+
+    // Room
+    val roomVersion = "2.5.2"
+    implementation("androidx.room:room-runtime:$roomVersion")
+    ksp("androidx.room:room-compiler:$roomVersion")
+
+    // Kotlin Extensions and Coroutines support for Room
+    implementation("androidx.room:room-ktx:$roomVersion")
+
+}
+
+// Allow references to generated code
+kapt {
+    correctErrorTypes = true
 }
